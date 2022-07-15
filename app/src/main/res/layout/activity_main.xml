@@ -11,33 +11,62 @@
         android:layout_height="wrap_content"
         android:theme="@style/Theme.NoteKeeper.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/Theme.NoteKeeper.PopupOverlay" />
-
     </com.google.android.material.appbar.AppBarLayout>
 
 
 
-    <TextView
-        android:id="@+id/textDisplayedValue"
+<LinearLayout
+    android:layout_marginTop="64dp"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+
+
+    <Spinner
+        android:id="@+id/spinnerCourses"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="1"
-        android:layout_gravity="center_vertical"
-        android:gravity="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
+
+
+    <EditText
+        android:id="@+id/textNoteTitle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="@dimen/fab_margin"
-        android:layout_marginBottom="16dp"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Note title"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:inputType="textMultiLine" />
+
+    <EditText
+        android:id="@+id/textNoteText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Note text"
+        android:inputType="textMultiLine"/>
+
+</LinearLayout>
+
+
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/Theme.NoteKeeper.PopupOverlay" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

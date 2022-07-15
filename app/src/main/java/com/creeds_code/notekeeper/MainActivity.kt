@@ -1,41 +1,36 @@
 package com.creeds_code.notekeeper
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.TextView
-import androidx.core.view.accessibility.AccessibilityEventCompat.setAction
+import androidx.appcompat.app.AppCompatActivity
 import com.creeds_code.notekeeper.databinding.ActivityMainBinding
+import com.creeds_code.notekeeper.databinding.ContentMainBinding
 
 class MainActivity : AppCompatActivity() {
 
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var inputText: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        inputText = binding.textDisplayedValue
         setSupportActionBar(binding.toolbar)
+        //Adapter
+        val dm = DataManager()
+        val adapterCourses = ArrayAdapter<CourseInfo>(this,
+        android.R.layout.simple_spinner_item,
+        dm.courses.values.toList())
+        adapterCourses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        //contentBinding.spinnerCourses.adapter = adapterCourses
+        binding.spinnerCourses.adapter = adapterCourses
 
 
-
-        binding.fab.setOnClickListener { view ->
-            val  originalValue = inputText.text.toString().toInt()
-            val newValue = originalValue * 2
-            inputText.text = newValue.toString()
-            Snackbar.make(view, "Value $originalValue changed to $newValue", Snackbar.LENGTH_LONG)
-                .show()
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
