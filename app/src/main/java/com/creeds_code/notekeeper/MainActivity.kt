@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun displayNote() {
+        //Get note from data manager
         val note = DataManager.notes[notePosition]
         binding.textNoteTitle.setText(note.title)
         binding.textNoteText.setText(note.text)
@@ -58,9 +59,28 @@ class MainActivity : AppCompatActivity() {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> true
+            R.id.action_next -> {
+                moveNext()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
+    private fun moveNext() {
+        ++notePosition
+        displayNote()
+        invalidateOptionsMenu() //onPrepareOptionsMenu
+    }
 
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        if(notePosition >= DataManager.notes.lastIndex){
+            val menuItem = menu?.findItem(R.id.action_next)
+            if(menuItem != null){
+                menuItem.icon = getDrawable(R.drawable.ic_block_white_24)
+                menuItem.isEnabled = false
+            }
+        }
+        return super.onPrepareOptionsMenu(menu)
+    }
 }
