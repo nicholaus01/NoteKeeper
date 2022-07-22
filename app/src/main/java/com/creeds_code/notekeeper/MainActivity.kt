@@ -4,11 +4,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.creeds_code.notekeeper.databinding.ActivityMainBinding
-import com.creeds_code.notekeeper.databinding.ContentMainBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,19 +20,26 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         //Adapter
-        val adapterCourses = ArrayAdapter<CourseInfo>(this,
-        android.R.layout.simple_spinner_item,
-        DataManager.courses.values.toList())
+        val adapterCourses = ArrayAdapter<CourseInfo>(
+            this,
+            android.R.layout.simple_spinner_item,
+            DataManager.courses.values.toList()
+        )
         adapterCourses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerCourses.adapter = adapterCourses
 
         notePosition = intent.getIntExtra(EXTRA_NOTE_POSITION, POSITION_NOT_SET)
 
-        if(notePosition != POSITION_NOT_SET){
+        if (notePosition != POSITION_NOT_SET) {
             displayNote()
+        }else{
+            DataManager.notes.add(NoteInfo())
+            notePosition = DataManager.notes.lastIndex
         }
 
     }
+
+
 
     private fun displayNote() {
         //Get note from data manager
@@ -74,13 +78,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        if(notePosition >= DataManager.notes.lastIndex){
+        if (notePosition >= DataManager.notes.lastIndex) {
             val menuItem = menu?.findItem(R.id.action_next)
-            if(menuItem != null){
+            if (menuItem != null) {
                 menuItem.icon = getDrawable(R.drawable.ic_block_white_24)
                 menuItem.isEnabled = false
             }
         }
         return super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        saveNote()
+    }
+
+
+    private fun saveNote() {
+        val note = DataManager.notes[notePosition]
+        note.title = binding.textNoteTitle.text.toString()
+        note.text = binding.textNoteText.text.toString()
+        note.course = binding.spinnerCourses.selectedItem as CourseInfo
     }
 }
