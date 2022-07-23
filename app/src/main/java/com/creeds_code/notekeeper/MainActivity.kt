@@ -28,18 +28,23 @@ class MainActivity : AppCompatActivity() {
         adapterCourses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerCourses.adapter = adapterCourses
 
-        notePosition = intent.getIntExtra(EXTRA_NOTE_POSITION, POSITION_NOT_SET)
+        notePosition =
+            savedInstanceState?.getInt(NOTE_POSITION, POSITION_NOT_SET) ?:
+            intent.getIntExtra(NOTE_POSITION, POSITION_NOT_SET)
 
         if (notePosition != POSITION_NOT_SET) {
             displayNote()
-        }else{
+        } else {
             DataManager.notes.add(NoteInfo())
             notePosition = DataManager.notes.lastIndex
         }
 
     }
 
-
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState?.putInt(NOTE_POSITION, notePosition)
+    }
 
     private fun displayNote() {
         //Get note from data manager
